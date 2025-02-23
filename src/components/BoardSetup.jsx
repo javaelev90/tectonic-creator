@@ -19,7 +19,7 @@ function BoardSetup({ onSetup }) {
           <div className="slider-container">
             <input
               type="range"
-              min="1"
+              min="3"
               max="10"
               value={width}
               onChange={(e) => setWidth(parseInt(e.target.value))}
@@ -33,7 +33,7 @@ function BoardSetup({ onSetup }) {
           <div className="slider-container">
             <input
               type="range"
-              min="1"
+              min="3"
               max="10"
               value={height}
               onChange={(e) => setHeight(parseInt(e.target.value))}

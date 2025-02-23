@@ -15,11 +15,14 @@ function App() {
   const [editingAreaIndex, setEditingAreaIndex] = useState(null);
   const [isReadOnly, setIsReadOnly] = useState(false);
   const [selectedNumber, setSelectedNumber] = useState(null);
+  const [sharedUrl, setSharedUrl] = useState('');
 
   useEffect(() => {
     // Check for hash in URL
-    const hash = window.location.pathname.slice(1);
-    if (hash) {
+    const path = window.location.pathname;
+    const match = path.match(/\/tectonic\/(.+)$/);
+    if (match) {
+      const hash = match[1];  // Get the hash part after /tectonic/
       try {
         const boardData = decodeBoardHash(hash);
         setBoardConfig({ width: boardData.width, height: boardData.height });
@@ -33,25 +36,57 @@ function App() {
   }, []);
 
   const createBoardHash = () => {
+    // Optimize the board data structure
     const boardData = {
-      width: boardConfig.width,
-      height: boardConfig.height,
-      areas: areas,
-      numbers: numbers
+      w: boardConfig.width,  // shorter key names
+      h: boardConfig.height,
+      a: areas.map(area => area.map(coord => [coord.x, coord.y])), // compress coordinates to arrays
+      n: Object.entries(numbers).reduce((acc, [key, value]) => {
+        const [x, y] = key.split(',');
+        acc.push([parseInt(x), parseInt(y), parseInt(value)]); // compress number data
+        return acc;
+      }, [])
     };
-    const hash = btoa(JSON.stringify(boardData));
-    const url = `${window.location.origin}/${hash}`;
+    
+    // Use a more compact JSON format
+    const minifiedJson = JSON.stringify(boardData);
+    const hash = btoa(minifiedJson)
+      .replace(/=/g, '') // Remove padding equals signs
+      .replace(/\+/g, '-') // Replace URL-unsafe characters
+      .replace(/\//g, '_');
+    
+    const url = `${window.location.origin}/tectonic/${hash}`;
     navigator.clipboard.writeText(url);
     return url;
   };
 
   const decodeBoardHash = (hash) => {
-    return JSON.parse(atob(hash));
+    // Add back padding if needed
+    hash = hash.replace(/-/g, '+').replace(/_/g, '/');
+    const padding = hash.length % 4;
+    if (padding) {
+      hash += '='.repeat(4 - padding);
+    }
+    
+    const data = JSON.parse(atob(hash));
+    return {
+      width: data.w,
+      height: data.h,
+      areas: data.a.map(area => area.map(([x, y]) => ({x, y}))),
+      numbers: data.n.reduce((acc, [x, y, value]) => {
+        acc[`${x},${y}`] = value.toString();
+        return acc;
+      }, {})
+    };
   };
 
   const finishBoard = () => {
     const url = createBoardHash();
-    alert(`Board URL copied to clipboard!\n${url}`);
+    setSharedUrl(url);
+  };
+
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(sharedUrl);
   };
 
   const handleBoardSetup = (width, height) => {
@@ -255,10 +290,27 @@ function App() {
                     <span>🔗</span>
                     Share Puzzle
                   </button>
+                  {sharedUrl && (
+                    <div className="shared-url-container">
+                      <input 
+                        type="text" 
+                        value={sharedUrl} 
+                        readOnly 
+                        className="shared-url-input"
+                      />
+                      <button 
+                        onClick={copyToClipboard}
+                        className="copy-button"
+                        title="Copy to clipboard"
+                      >
+                        📋
+                      </button>
+                    </div>
+                  )}
                 </div>
               </div>
               <div className="areas-list">
-                <h3>Areas</h3>
+                <h3>Choose an Area to edit</h3>
                 {areas.map((area, index) => (
                   <div 
                     key={index} 

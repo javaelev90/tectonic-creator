@@ -54,18 +54,18 @@
 }
 
 .current-area {
-  background-color: rgba(129, 178, 154, 0.3); /* retro-accent */
+  background-color: rgba(129, 178, 154, 0.6); /* Increased from 0.3 */
 }
 
-/* Area colors - expanded to 8 colors with retro palette */
-.area-0 { background-color: rgba(224, 122, 95, 0.2); }
-.area-1 { background-color: rgba(61, 64, 91, 0.2); }
-.area-2 { background-color: rgba(129, 178, 154, 0.2); }
-.area-3 { background-color: rgba(242, 204, 143, 0.2); }
-.area-4 { background-color: rgba(219, 164, 84, 0.2); }
-.area-5 { background-color: rgba(158, 108, 87, 0.2); }
-.area-6 { background-color: rgba(145, 168, 208, 0.2); }
-.area-7 { background-color: rgba(186, 200, 146, 0.2); }
+/* Area colors - increased opacity from 0.2 to 0.5 */
+.area-0 { background-color: rgba(224, 122, 95, 0.5); }
+.area-1 { background-color: rgba(61, 64, 91, 0.5); }
+.area-2 { background-color: rgba(129, 178, 154, 0.5); }
+.area-3 { background-color: rgba(242, 204, 143, 0.5); }
+.area-4 { background-color: rgba(219, 164, 84, 0.5); }
+.area-5 { background-color: rgba(158, 108, 87, 0.5); }
+.area-6 { background-color: rgba(145, 168, 208, 0.5); }
+.area-7 { background-color: rgba(186, 200, 146, 0.5); }
 
 /* Area border styling */
 .board-tile[class*="area-"]::before {
