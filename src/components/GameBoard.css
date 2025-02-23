@@ -1,0 +1,207 @@
+.game-board-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.number-selector {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.number-button {
+  width: 48px;
+  height: 48px;
+  border-radius: 8px !important;
+  background-color: var(--retro-secondary) !important;
+  border-color: var(--retro-secondary) !important;
+  font-size: 24px;
+  font-family: 'Courier New', Courier, monospace;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 3px 3px 0 var(--retro-highlight);
+}
+
+.number-button:hover:not(:disabled) {
+  opacity: 0.9;
+  transform: translate(-2px, -2px);
+  box-shadow: 5px 5px 0 var(--retro-highlight) !important;
+}
+
+.number-button.selected {
+  background-color: var(--retro-accent) !important;
+  border-color: var(--retro-accent) !important;
+}
+
+.number-button.eraser {
+  font-size: 20px;
+  background-color: var(--retro-secondary);
+  border-color: var(--retro-secondary);
+}
+
+.number-button.eraser.selected {
+  background-color: var(--retro-primary) !important;
+  border-color: var(--retro-primary) !important;
+}
+
+.game-board {
+  display: inline-block;
+  background: white;
+  border: 3px solid var(--retro-secondary);
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 8px 8px 0 var(--retro-highlight);
+}
+
+.board-tile {
+  width: 50px;
+  height: 50px;
+  border: 1px solid var(--retro-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  position: relative;
+}
+
+.board-tile:hover {
+  filter: brightness(0.95);
+}
+
+.number {
+  font-size: 24px;
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: bold;
+  color: var(--retro-secondary);
+}
+
+.number.initial {
+  font-weight: 900;
+  font-size: 26px;
+}
+
+/* Add tile background styling for initial numbers */
+.board-tile:has(.number.initial) {
+  background-image: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 5px,
+    rgba(0, 0, 0, 0.1) 5px,
+    rgba(0, 0, 0, 0.1) 7px
+  );
+}
+
+/* Area border styling */
+.board-tile[class*="area-"]::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  right: -1px;
+  bottom: -1px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Border styles */
+.board-tile[class*="area-"]:not([class*="same-area-above"])::before { border-top: 3px solid; }
+.board-tile[class*="area-"]:not([class*="same-area-below"])::before { border-bottom: 3px solid; }
+.board-tile[class*="area-"]:not([class*="same-area-left"])::before { border-left: 3px solid; }
+.board-tile[class*="area-"]:not([class*="same-area-right"])::before { border-right: 3px solid; }
+
+/* Border colors with retro palette */
+.area-0::before { border-color: rgb(224, 122, 95); }
+.area-1::before { border-color: rgb(106, 90, 205); }
+.area-2::before { border-color: rgb(129, 178, 154); }
+.area-3::before { border-color: rgb(242, 204, 143); }
+.area-4::before { border-color: rgb(219, 164, 84); }
+.area-5::before { border-color: rgb(158, 108, 87); }
+.area-6::before { border-color: rgb(145, 168, 208); }
+.area-7::before { border-color: rgb(186, 200, 146); }
+
+/* Area colors - expanded to 8 colors with retro palette */
+.area-0 { background-color: rgba(224, 122, 95, 0.2); }
+.area-1 { background-color: rgba(106, 90, 205, 0.2); }
+.area-2 { background-color: rgba(129, 178, 154, 0.2); }
+.area-3 { background-color: rgba(242, 204, 143, 0.2); }
+.area-4 { background-color: rgba(219, 164, 84, 0.2); }
+.area-5 { background-color: rgba(158, 108, 87, 0.2); }
+.area-6 { background-color: rgba(145, 168, 208, 0.2); }
+.area-7 { background-color: rgba(186, 200, 146, 0.2); }
+
+.board-tile.clickable {
+  cursor: pointer;
+}
+
+.board-tile.clickable:not(:has(.number.initial)):hover {
+  background-color: rgba(var(--retro-highlight), 0.1);
+}
+
+.board-tile:not(.clickable) {
+  cursor: default;
+}
+
+.board-tile:not(.clickable):hover {
+  filter: none;
+}
+
+@media (max-width: 480px) {
+  .board-tile {
+    width: 40px;
+    height: 40px;
+  }
+
+  .number-button {
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+  }
+
+  .number {
+    font-size: 20px;
+  }
+
+  .number.initial {
+    font-size: 22px;
+  }
+
+  .board-tile:has(.number.initial) {
+    background-image: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 4px,
+      rgba(0, 0, 0, 0.1) 4px,
+      rgba(0, 0, 0, 0.1) 6px
+    );
+  }
+}
+
+.win-message {
+  background-color: var(--retro-accent);
+  color: white;
+  padding: 15px 30px;
+  border-radius: 8px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+  animation: pop-in 0.5s ease-out;
+  box-shadow: 4px 4px 0 var(--retro-highlight);
+}
+
+@keyframes pop-in {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  80% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+} 

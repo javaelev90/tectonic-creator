@@ -1,0 +1,107 @@
+.board-setup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  padding: 2rem;
+  background: var(--retro-bg);
+  border-radius: 12px;
+  border: 3px solid var(--retro-secondary);
+  box-shadow: 6px 6px 0 var(--retro-highlight);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.dimension-selector {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  width: 100%;
+  max-width: 400px;
+}
+
+.dimension-group {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.dimension-group label {
+  font-size: 1.2rem;
+  color: var(--retro-secondary);
+  font-weight: bold;
+}
+
+.slider-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.slider {
+  flex: 1;
+  height: 8px;
+  -webkit-appearance: none;
+  appearance: none;
+  background: var(--retro-secondary);
+  border-radius: 4px;
+  outline: none;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 24px;
+  height: 24px;
+  background: var(--retro-accent);
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid var(--retro-secondary);
+  box-shadow: 2px 2px 0 var(--retro-highlight);
+  transition: all 0.2s ease;
+}
+
+.slider::-moz-range-thumb {
+  width: 24px;
+  height: 24px;
+  background: var(--retro-accent);
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid var(--retro-secondary);
+  box-shadow: 2px 2px 0 var(--retro-highlight);
+  transition: all 0.2s ease;
+}
+
+.slider::-webkit-slider-thumb:hover {
+  transform: scale(1.1);
+}
+
+.slider::-moz-range-thumb:hover {
+  transform: scale(1.1);
+}
+
+.slider-value {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--retro-secondary);
+  min-width: 2ch;
+  text-align: center;
+}
+
+.create-button {
+  background: var(--retro-accent);
+  color: white;
+  border: none;
+  padding: 1rem 2rem;
+  font-size: 1.2rem;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 4px 4px 0 var(--retro-highlight);
+}
+
+.create-button:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 var(--retro-highlight);
+} 
