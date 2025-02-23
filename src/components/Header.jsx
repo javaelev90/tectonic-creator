@@ -2,7 +2,7 @@ import './Header.css';
 
 function Header() {
   const handleNewPuzzle = () => {
-    window.location.href = '/';
+    window.location.href = '/tectonic/';
   };
 
   return (

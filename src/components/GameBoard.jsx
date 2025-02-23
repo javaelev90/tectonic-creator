@@ -136,6 +136,8 @@ function GameBoard({ width, height, areas, numbers, onNumberSet }) {
     }
   }, [isWon]);
 
+  const isLargeBoard = width > 6 || height > 6;
+
   return (
     <div className="game-board-container">
       {isWon && (
@@ -158,11 +160,11 @@ function GameBoard({ width, height, areas, numbers, onNumberSet }) {
           onClick={() => setSelectedNumber('erase')}
           title="Eraser"
         >
-          ⌫
+          ✕
         </button>
       </div>
       
-      <div className="game-board">
+      <div className={`game-board ${isLargeBoard ? 'large-board' : ''}`}>
         {Array.from({ length: height }, (_, y) => (
           <div key={y} className="board-row">
             {Array.from({ length: width }, (_, x) => {

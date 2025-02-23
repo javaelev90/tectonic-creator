@@ -74,20 +74,27 @@ button:active {
   gap: 1rem;
   align-items: center;
   width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .draw-controls {
   display: flex;
-  gap: 1rem;
+  gap: 0.5rem;
   align-items: center;
   justify-content: center;
   width: 100%;
+  flex-wrap: wrap;
 }
 
 .number-buttons-group {
   display: flex;
   justify-content: center;
   margin-left: 0;
+  gap: 0.25rem;
+  flex-wrap: wrap;
+  padding: 0 5px;
 }
 
 .draw-button, .action-button {
@@ -317,16 +324,36 @@ button:active {
 }
 
 @media (max-width: 480px) {
+  .puzzle-creator {
+    padding: 0 0.5rem 0.5rem;
+  }
+
+  .controls {
+    padding: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
   .draw-button, .action-button {
-    font-size: 1rem !important;
+    padding: 0.5rem 0.75rem !important;
+    font-size: 0.9rem !important;
   }
 
   .number-button {
-    font-size: 1.1rem;
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
   }
 
   .App h1 {
     font-size: 2rem;
+  }
+}
+
+/* For very small screens */
+@media (max-width: 360px) {
+  .number-button {
+    width: 35px;
+    height: 35px;
   }
 }
 

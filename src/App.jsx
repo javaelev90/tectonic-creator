@@ -5,6 +5,8 @@ import GameBoard from './components/GameBoard';
 import Header from './components/Header';
 import './App.css';
 
+const HASH_PREFIX = 'TC_'; // Tectonic Creator prefix
+
 function App() {
   const [boardConfig, setBoardConfig] = useState(null);
   const [areas, setAreas] = useState([]);
@@ -20,17 +22,19 @@ function App() {
   useEffect(() => {
     // Check for hash in URL
     const path = window.location.pathname;
-    const match = path.match(/\/tectonic\/(.+)$/);
-    if (match) {
-      const hash = match[1];  // Get the hash part after /tectonic/
+    const match = path.match(/\/tectonic\/(TC_.+)$/);
+    
+    // Only try to decode if we have a match and hash
+    if (match && match[1]) {
       try {
+        const hash = match[1];
         const boardData = decodeBoardHash(hash);
         setBoardConfig({ width: boardData.width, height: boardData.height });
         setAreas(boardData.areas);
         setNumbers(boardData.numbers || {});
         setIsReadOnly(true);
       } catch (e) {
-        console.error(e,'Invalid board hash');
+        console.error('Invalid board hash:', e);
       }
     }
   }, []);
@@ -48,19 +52,43 @@ function App() {
       }, [])
     };
     
-    // Use a more compact JSON format
     const minifiedJson = JSON.stringify(boardData);
-    const hash = btoa(minifiedJson)
+    const hash = HASH_PREFIX + btoa(minifiedJson)
       .replace(/=/g, '') // Remove padding equals signs
       .replace(/\+/g, '-') // Replace URL-unsafe characters
       .replace(/\//g, '_');
     
     const url = `${window.location.origin}/tectonic/${hash}`;
-    navigator.clipboard.writeText(url);
+    
+    try {
+        if (navigator.clipboard && window.isSecureContext) {
+            navigator.clipboard.writeText(url);
+        } else {
+            const textArea = document.createElement('textarea');
+            textArea.value = url;
+            textArea.style.position = 'fixed';
+            textArea.style.opacity = '0';
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+        }
+    } catch (err) {
+        console.error('Failed to copy URL:', err);
+    }
+    
     return url;
   };
 
   const decodeBoardHash = (hash) => {
+    // Only decode if it starts with our prefix
+    if (!hash.startsWith(HASH_PREFIX)) {
+      throw new Error('Invalid board hash format');
+    }
+    
+    // Remove the prefix before decoding
+    hash = hash.slice(HASH_PREFIX.length);
+    
     // Add back padding if needed
     hash = hash.replace(/-/g, '+').replace(/_/g, '/');
     const padding = hash.length % 4;
@@ -86,7 +114,24 @@ function App() {
   };
 
   const copyToClipboard = () => {
-    navigator.clipboard.writeText(sharedUrl);
+    try {
+        if (navigator.clipboard && window.isSecureContext) {
+            // Use the Clipboard API if available
+            navigator.clipboard.writeText(sharedUrl);
+        } else {
+            // Fallback for older browsers or non-HTTPS
+            const textArea = document.createElement('textarea');
+            textArea.value = sharedUrl;
+            textArea.style.position = 'fixed';  // Avoid scrolling to bottom
+            textArea.style.opacity = '0';
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+        }
+    } catch (err) {
+        console.error('Failed to copy URL:', err);
+    }
   };
 
   const handleBoardSetup = (width, height) => {
