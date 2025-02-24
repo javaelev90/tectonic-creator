@@ -7,14 +7,13 @@ GameBoard.propTypes = {
   width: PropTypes.number.isRequired,
   height: PropTypes.number.isRequired,
   areas: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.object)).isRequired,
-  numbers: PropTypes.object.isRequired,
-  onNumberSet: PropTypes.func.isRequired,
+  initialNumbers: PropTypes.object.isRequired,
 };
 
-function GameBoard({ width, height, areas, numbers, onNumberSet }) {
+function GameBoard({ width, height, areas, initialNumbers }) {
   const [selectedNumber, setSelectedNumber] = useState(null);
-  const [initialNumbers] = useState({...numbers}); // Store initial numbers
   const [isWon, setIsWon] = useState(false);
+  const [numbers, setNumbers] = useState({...initialNumbers});
 
   const checkWinCondition = useCallback(() => {
     // Check if all areas are filled
@@ -73,6 +72,13 @@ function GameBoard({ width, height, areas, numbers, onNumberSet }) {
     }
   }, [numbers, checkWinCondition]);
 
+  const setNumber = (x, y, value) => {
+    setNumbers({
+      ...numbers,
+      [`${x},${y}`]: value
+    });
+  };
+
   const getAreaIndex = (x, y) => {
     return areas.findIndex(area =>
       area.some(coord => coord.x === x && coord.y === y)
@@ -90,9 +96,9 @@ function GameBoard({ width, height, areas, numbers, onNumberSet }) {
     }
 
     if (selectedNumber === 'erase') {
-      onNumberSet(x, y, '');
+      setNumber(x, y, '');
     } else if (selectedNumber !== null) {
-      onNumberSet(x, y, selectedNumber.toString());
+      setNumber(x, y, selectedNumber.toString());
     }
   };
 

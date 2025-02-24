@@ -141,17 +141,199 @@
 }
 
 .controls {
-  margin-bottom: 20px;
+  margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+  background: var(--retro-bg);
+  padding: 1rem;
+  border-radius: 12px;
+  border: 3px solid var(--retro-secondary);
+  box-shadow: 6px 6px 0 var(--retro-highlight);
 }
 
-.erase-mode {
-  cursor: crosshair;
+.controls-group {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
-.erase-mode:hover {
-  background-color: rgba(255, 0, 0, 0.1);
+.draw-controls {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  flex-wrap: wrap;
 }
 
-.erase-mode:active {
-  background-color: rgba(255, 0, 0, 0.2);
+.number-buttons-group {
+  display: flex;
+  justify-content: center;
+  margin-left: 0;
+  gap: 0.25rem;
+  flex-wrap: wrap;
+  padding: 0 5px;
+}
+
+.draw-button {
+  background-color: var(--retro-secondary) !important;
+  border-color: var(--retro-secondary) !important;
+  height: 48px;
+}
+
+.draw-button.active {
+  background-color: var(--retro-accent) !important;
+  border-color: var(--retro-accent) !important;
+}
+
+.draw-button:hover:not(:disabled) {
+  opacity: 0.9;
+  transform: translate(-2px, -2px);
+  box-shadow: 5px 5px 0 var(--retro-highlight) !important;
+}
+
+.number-button {
+  width: 48px;
+  height: 48px;
+  border-radius: 8px !important;
+  background-color: var(--retro-secondary) !important;
+  border-color: var(--retro-secondary) !important;
+  box-shadow: 0 4px 0 #2a2c3f !important;
+}
+
+.number-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 0 #2a2c3f !important;
+}
+
+.number-button:active:not(:disabled) {
+  transform: translateY(4px);
+  box-shadow: 0 0 0 #2a2c3f !important;
+}
+
+.number-button.active {
+  background-color: var(--retro-accent) !important;
+  border-color: var(--retro-accent) !important;
+}
+
+.finalize-button {
+  background-color: var(--retro-secondary) !important;
+  border-color: var(--retro-secondary) !important;
+  height: 48px;
+}
+
+.finish-button {
+  background-color: var(--retro-secondary) !important;
+  border-color: var(--retro-secondary) !important;
+}
+
+.shared-url-container {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  padding: 0 10px;
+  box-sizing: border-box;
+}
+
+.shared-url-input {
+  flex: 1;
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  min-width: 0;
+  font-size: 14px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.copy-button {
+  flex-shrink: 0;
+  width: 40px;
+  min-width: 40px;
+  padding: 8px;
+  margin: 0;
+  box-shadow: 0 4px 0 #2a2c3f;
+}
+
+.areas-list {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  min-width: 200px;
+  text-align: left;
+  box-shadow: 8px 8px 0 var(--retro-highlight);
+  border: 3px solid var(--retro-secondary);
+  width: 100%;
+  max-width: 400px;
+  box-sizing: border-box;
+}
+
+.areas-list h3 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  color: var(--retro-secondary);
+  border-bottom: 2px dashed var(--retro-secondary);
+  padding-bottom: 8px;
+}
+
+.area-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  margin: 8px 0;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: 2px solid transparent;
+}
+
+.area-item:hover {
+  background-color: var(--retro-bg);
+}
+
+.area-item.editing {
+  background-color: var(--retro-primary);
+  color: white;
+  border-color: var(--retro-secondary);
+  font-weight: bold;
+  box-shadow: 2px 2px 0 var(--retro-highlight);
+}
+
+.delete-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px 8px;
+  margin: 0;
+  font-size: 16px;
+  transition: transform 0.2s;
+  color: var(--retro-secondary);
+  background-color: var(--retro-secondary);
+}
+
+.delete-button:hover {
+  transform: scale(1.2);
+  color: var(--retro-accent);
+}
+
+@media (max-width: 480px) {
+  .shared-url-container {
+    padding: 0 5px;
+  }
+  
+  .shared-url-input {
+    font-size: 12px;
+  }
 } 
